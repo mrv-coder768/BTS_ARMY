@@ -169,6 +169,7 @@ footer{text-align:center;padding:40px;opacity:.85}
   from{transform:translateY(110vh)}
   to{transform:translateY(-10vh)}
 }
+#musicIcon{font-size:50px;cursor:pointer;margin-top:20px;}
 </style>
 </head>
 
@@ -260,10 +261,8 @@ footer{text-align:center;padding:40px;opacity:.85}
 
 <section id="music" style="text-align:center">
 <h3>BTS Vibes</h3>
-<audio id="song" controls>
-  <source src="bts.mp3" type="audio/mpeg">
-  Your browser does not support the audio element.
-</audio>
+<div id="musicIcon">🎵</div>
+<audio id="song" src="bts.mp3"></audio>
 <div class="bars" id="visualizer">
 <div class="bar"></div><div class="bar"></div><div class="bar"></div>
 <div class="bar"></div><div class="bar"></div>
@@ -322,6 +321,19 @@ setInterval(()=>{
     bar.style.height = (20 + Math.random()*60) + 'px';
   });
 }, 300);
+
+// Music play/pause toggle
+const musicIcon = document.getElementById("musicIcon");
+const song = document.getElementById("song");
+musicIcon.addEventListener("click", () => {
+  if(song.paused){
+    song.play();
+    musicIcon.textContent = "⏸️";
+  } else {
+    song.pause();
+    musicIcon.textContent = "🎵";
+  }
+});
 </script>
 
 </body>
