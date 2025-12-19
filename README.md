@@ -261,8 +261,8 @@ footer{text-align:center;padding:40px;opacity:.85}
 
 <section id="music" style="text-align:center">
 <h3>BTS Vibes</h3>
-<div id="musicIcon">🎵</div>
-<audio id="song" src="bts.mp3"></audio>
+<div id="musicIcon">⏸️</div>
+<audio id="song" src="bts.mp3" autoplay></audio>
 <div class="bars" id="visualizer">
 <div class="bar"></div><div class="bar"></div><div class="bar"></div>
 <div class="bar"></div><div class="bar"></div>
@@ -325,6 +325,10 @@ setInterval(()=>{
 // Music play/pause toggle
 const musicIcon = document.getElementById("musicIcon");
 const song = document.getElementById("song");
+
+// Set icon to pause initially
+musicIcon.textContent = "⏸️";
+
 musicIcon.addEventListener("click", () => {
   if(song.paused){
     song.play();
