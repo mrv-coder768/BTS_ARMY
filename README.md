@@ -26,6 +26,7 @@ body{
   color:var(--text);
   transition:.4s;
   overflow-x:hidden;
+  scroll-behavior:smooth;
 }
 
 /* NAV */
@@ -57,7 +58,8 @@ nav a{color:var(--text);margin-left:15px;text-decoration:none}
 }
 
 /* SECTIONS */
-section{padding:90px 8%}
+section{padding:90px 8%; opacity:0; transform:translateY(30px); transition:all 0.6s ease;}
+section.visible{opacity:1; transform:translateY(0);}
 section h3{text-align:center;font-size:2.3rem;margin-bottom:40px;color:var(--accent)}
 
 /* MEMBERS */
@@ -76,6 +78,17 @@ section h3{text-align:center;font-size:2.3rem;margin-bottom:40px;color:var(--acc
   transform:translateY(-8px) scale(1.05);
   box-shadow:0 0 25px var(--accent);
 }
+.card img{
+  width:100px;
+  height:100px;
+  border-radius:50%;
+  margin-bottom:10px;
+  object-fit:cover;
+}
+.card h4{
+  margin-top:10px;
+  color:var(--accent);
+}
 
 /* MODAL */
 .modal{
@@ -88,6 +101,9 @@ section h3{text-align:center;font-size:2.3rem;margin-bottom:40px;color:var(--acc
   background:var(--bg);
   padding:30px;border-radius:20px;
   max-width:400px;text-align:center;
+}
+.modal-box img{
+  width:150px;border-radius:15px;margin-bottom:15px;
 }
 .close{margin-top:15px;cursor:pointer;color:var(--accent)}
 
@@ -165,6 +181,7 @@ footer{text-align:center;padding:40px;opacity:.85}
 <a href="#gallery">Gallery</a>
 <a href="#eras">Eras</a>
 <a href="#army">ARMY</a>
+<a href="#music">Music</a>
 <span class="toggle" onclick="toggleTheme()">🌓</span>
 </div>
 </nav>
@@ -179,13 +196,34 @@ footer{text-align:center;padding:40px;opacity:.85}
 <section id="members">
 <h3>The 7 Members</h3>
 <div class="members">
-<div class="card" onclick="openModal('RM','Leader · Lyricist · Thinker')">RM</div>
-<div class="card" onclick="openModal('Jin','Vocal · Worldwide Handsome')">Jin</div>
-<div class="card" onclick="openModal('SUGA','Rapper · Producer')">SUGA</div>
-<div class="card" onclick="openModal('j-hope','Dance · Sunshine')">j-hope</div>
-<div class="card" onclick="openModal('Jimin','Grace · Performance')">Jimin</div>
-<div class="card" onclick="openModal('V','Artist · Soul')">V</div>
-<div class="card" onclick="openModal('Jungkook','Golden Maknae')">Jungkook</div>
+<div class="card" onclick="openModal('RM','Leader · Lyricist · Thinker','https://via.placeholder.com/150?text=RM')">
+  <img src="https://via.placeholder.com/150?text=RM" alt="RM">
+  <h4>RM</h4>
+</div>
+<div class="card" onclick="openModal('Jin','Vocal · Worldwide Handsome','https://via.placeholder.com/150?text=Jin')">
+  <img src="https://via.placeholder.com/150?text=Jin" alt="Jin">
+  <h4>Jin</h4>
+</div>
+<div class="card" onclick="openModal('SUGA','Rapper · Producer','https://via.placeholder.com/150?text=SUGA')">
+  <img src="https://via.placeholder.com/150?text=SUGA" alt="SUGA">
+  <h4>SUGA</h4>
+</div>
+<div class="card" onclick="openModal('j-hope','Dance · Sunshine','https://via.placeholder.com/150?text=j-hope')">
+  <img src="https://via.placeholder.com/150?text=j-hope" alt="j-hope">
+  <h4>j-hope</h4>
+</div>
+<div class="card" onclick="openModal('Jimin','Grace · Performance','https://via.placeholder.com/150?text=Jimin')">
+  <img src="https://via.placeholder.com/150?text=Jimin" alt="Jimin">
+  <h4>Jimin</h4>
+</div>
+<div class="card" onclick="openModal('V','Artist · Soul','https://via.placeholder.com/150?text=V')">
+  <img src="https://via.placeholder.com/150?text=V" alt="V">
+  <h4>V</h4>
+</div>
+<div class="card" onclick="openModal('Jungkook','Golden Maknae','https://via.placeholder.com/150?text=Jungkook')">
+  <img src="https://via.placeholder.com/150?text=Jungkook" alt="Jungkook">
+  <h4>Jungkook</h4>
+</div>
 </div>
 </section>
 
@@ -220,6 +258,18 @@ footer{text-align:center;padding:40px;opacity:.85}
 </div>
 </section>
 
+<section id="music" style="text-align:center">
+<h3>BTS Vibes</h3>
+<audio id="song" controls>
+  <source src="bts.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+<div class="bars" id="visualizer">
+<div class="bar"></div><div class="bar"></div><div class="bar"></div>
+<div class="bar"></div><div class="bar"></div>
+</div>
+</section>
+
 <footer>
 💜 Fan-made BTS Website · Made with love by ARMY 💜
 </footer>
@@ -233,22 +283,45 @@ footer{text-align:center;padding:40px;opacity:.85}
 </div>
 
 <script>
-function openModal(t,x){
-modal.style.display="flex";
-mTitle.innerText=t;
-mText.innerText=x;
+const modal = document.getElementById("modal");
+const mTitle = document.getElementById("mTitle");
+const mText = document.getElementById("mText");
+
+function openModal(name, text, img){
+  modal.style.display="flex";
+  mTitle.innerText=name;
+  mText.innerHTML = `<img src="${img}" alt="${name}"><p>${text}</p>`;
 }
 function closeModal(){modal.style.display="none";}
-function toggleTheme(){
-document.body.classList.toggle("light");
-}
+function toggleTheme(){document.body.classList.toggle("light");}
+
+// Stars
 for(let i=0;i<70;i++){
-let s=document.createElement("div");
-s.className="star";
-s.style.left=Math.random()*100+"vw";
-s.style.animationDuration=6+Math.random()*8+"s";
-document.body.appendChild(s);
+  let s=document.createElement("div");
+  s.className="star";
+  s.style.left=Math.random()*100+"vw";
+  s.style.animationDuration=6+Math.random()*8+"s";
+  document.body.appendChild(s);
 }
+
+// Section reveal on scroll
+const sections = document.querySelectorAll('section');
+window.addEventListener('scroll', () => {
+  sections.forEach(sec => {
+    const top = sec.getBoundingClientRect().top;
+    if(top < window.innerHeight - 100){
+      sec.classList.add('visible');
+    }
+  });
+});
+
+// Fake visualizer animation
+const bars = document.querySelectorAll('#visualizer .bar');
+setInterval(()=>{
+  bars.forEach(bar=>{
+    bar.style.height = (20 + Math.random()*60) + 'px';
+  });
+}, 300);
 </script>
 
 </body>
